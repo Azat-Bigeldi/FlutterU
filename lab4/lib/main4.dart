@@ -28,8 +28,6 @@ class _ProfileCardScreenState extends State<ProfileCardScreen> {
   static const int _defaultFollowers = 1320;
   static const int _defaultLikes = 120;
 
-  bool _isFollowing = false;
-  bool _isLiked = false;
   int _followerCount = _defaultFollowers;
   int _likesCount = _defaultLikes;
 
@@ -57,11 +55,11 @@ class _ProfileCardScreenState extends State<ProfileCardScreen> {
                 ),
                 const SizedBox(height: 16),
                 const Text(
-                  'BeKZat Zharylkassyn',
+                  'Bigeldi Azat',
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                 ),
                 const Text(
-                  'Senior Lecturer',
+                  'Senior Developer',
                   style: TextStyle(color: Colors.grey),
                 ),
                 const SizedBox(height: 24),
@@ -78,18 +76,32 @@ class _ProfileCardScreenState extends State<ProfileCardScreen> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     ElevatedButton.icon(
-                      onPressed: _toggleFollow,
-                      icon: Icon(_isFollowing ? Icons.check : Icons.person_add),
-                      label: Text(_isFollowing ? 'Following' : 'Follow'),
+                      onPressed: _follow,
+                      icon: const Icon(Icons.person_add),
+                      label: const Text('Follow'),
                     ),
                     const SizedBox(width: 12),
                     OutlinedButton.icon(
-                      onPressed: _toggleLike,
-                      icon: Icon(
-                        _isLiked ? Icons.favorite : Icons.favorite_border,
-                        color: _isLiked ? Colors.red : null,
-                      ),
-                      label: Text(_isLiked ? 'Liked' : 'Like'),
+                      onPressed: _unfollow,
+                      icon: const Icon(Icons.person_remove),
+                      label: const Text('Unfollow'),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 12),
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    ElevatedButton.icon(
+                      onPressed: _like,
+                      icon: const Icon(Icons.thumb_up),
+                      label: const Text('Like'),
+                    ),
+                    const SizedBox(width: 12),
+                    OutlinedButton.icon(
+                      onPressed: _dislike,
+                      icon: const Icon(Icons.thumb_down),
+                      label: const Text('Dislike'),
                     ),
                   ],
                 ),
@@ -119,24 +131,28 @@ class _ProfileCardScreenState extends State<ProfileCardScreen> {
     );
   }
 
-  void _toggleFollow() {
+  void _follow() {
+    setState(() => _followerCount++);
+  }
+
+  void _unfollow() {
     setState(() {
-      _isFollowing = !_isFollowing;
-      _followerCount += _isFollowing ? 1 : -1;
+      if (_followerCount > 0) _followerCount--;
     });
   }
 
-  void _toggleLike() {
+  void _like() {
+    setState(() => _likesCount++);
+  }
+
+  void _dislike() {
     setState(() {
-      _isLiked = !_isLiked;
-      _likesCount += _isLiked ? 1 : -1;
+      if (_likesCount > 0) _likesCount--;
     });
   }
 
   void _reset() {
     setState(() {
-      _isFollowing = false;
-      _isLiked = false;
       _followerCount = _defaultFollowers;
       _likesCount = _defaultLikes;
     });
