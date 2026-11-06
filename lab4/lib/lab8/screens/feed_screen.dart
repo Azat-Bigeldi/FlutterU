@@ -29,7 +29,7 @@ class _FeedScreenState extends State<FeedScreen> {
 
   ViewMode _viewMode = ViewMode.grid;
 
-  // ───────────────────────── Действия ─────────────────────────
+  // Действия
 
   void _openDetail(Product product) {
     // Navigator.push + передача всего объекта Product (из LW7)
@@ -110,11 +110,17 @@ class _FeedScreenState extends State<FeedScreen> {
       appBar: AppBar(
         title: Column(
           children: [
-            const Text('Flip',
-                style: TextStyle(
-                    fontWeight: FontWeight.w800, color: FlipColors.blue)),
-            Text('${_products.length} товаров',
-                style: const TextStyle(fontSize: 12, color: FlipColors.grey)),
+            const Text(
+              'Flip',
+              style: TextStyle(
+                fontWeight: FontWeight.w800,
+                color: FlipColors.blue,
+              ),
+            ),
+            Text(
+              '${_products.length} товаров',
+              style: const TextStyle(fontSize: 12, color: FlipColors.grey),
+            ),
           ],
         ),
         actions: [
@@ -243,8 +249,10 @@ class _SearchBar extends StatelessWidget {
             Icon(Icons.search, color: FlipColors.grey),
             SizedBox(width: 10),
             Expanded(
-              child: Text('over 1,000,000 products',
-                  style: TextStyle(color: FlipColors.grey, fontSize: 16)),
+              child: Text(
+                'over 1,000,000 products',
+                style: TextStyle(color: FlipColors.grey, fontSize: 16),
+              ),
             ),
             Icon(Icons.photo_camera_outlined, color: FlipColors.grey),
           ],

@@ -7,7 +7,6 @@ import 'product_image.dart';
 import 'rating_stars.dart';
 
 /// Карточка товара для Grid mode (2 колонки, childAspectRatio 0.72).
-///
 /// Без overflow, потому что:
 ///  - обложка в Expanded — забирает оставшуюся высоту;
 ///  - у всех текстов maxLines: 1 + ellipsis;
@@ -79,7 +78,9 @@ class ProductCard extends StatelessWidget {
                       Text(
                         formatPrice(product.price),
                         style: const TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.w800),
+                          fontSize: 16,
+                          fontWeight: FontWeight.w800,
+                        ),
                       ),
                       const SizedBox(width: 6),
                       Flexible(
@@ -97,21 +98,27 @@ class ProductCard extends StatelessWidget {
                     ],
                   ),
                   const SizedBox(height: 2),
-                  Text(product.title,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(fontSize: 14)),
+                  Text(
+                    product.title,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(fontSize: 14),
+                  ),
                   const SizedBox(height: 2),
                   Row(
                     children: [
                       RatingStars(rating: product.rating, size: 13),
                       const SizedBox(width: 6),
                       Expanded(
-                        child: Text(product.author,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: const TextStyle(
-                                fontSize: 11, color: FlipColors.grey)),
+                        child: Text(
+                          product.author,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(
+                            fontSize: 11,
+                            color: FlipColors.grey,
+                          ),
+                        ),
                       ),
                     ],
                   ),

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../theme.dart';
 
-/// Картинка товара из сети с заглушкой, если нет интернета.
+/// Картинка товар из сети с заглушкой если нет интернета
 class ProductImage extends StatelessWidget {
   final String url;
   final BoxFit fit;
