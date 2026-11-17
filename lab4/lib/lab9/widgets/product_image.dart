@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import '../theme.dart';
 
-/// Картинка товар из сети с заглушкой если нет интернета
 class ProductImage extends StatelessWidget {
   final String url;
   final BoxFit fit;
@@ -20,7 +19,7 @@ class ProductImage extends StatelessWidget {
       errorBuilder: (context, error, stack) => Container(
         color: FlipColors.blue.withOpacity(0.1),
         alignment: Alignment.center,
-        child: const Icon(Icons.menu_book, size: 48, color: FlipColors.blue),
+        child: const Icon(Icons.image_not_supported_outlined, size: 48, color: FlipColors.blue),
       ),
     );
   }

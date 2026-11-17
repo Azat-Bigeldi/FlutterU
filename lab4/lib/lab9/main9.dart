@@ -7,9 +7,6 @@ import 'theme.dart';
 
 void main() {
   runApp(
-    // LW9: MaterialApp обёрнут в ChangeNotifierProvider.
-    // Провайдер стоит ВЫШЕ Navigator (он внутри MaterialApp), поэтому
-    // CartProvider виден на всех экранах, в том числе после Navigator.push.
     ChangeNotifierProvider(
       create: (_) => CartProvider(),
       child: const FlipApp(),

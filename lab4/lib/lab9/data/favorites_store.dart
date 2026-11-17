@@ -2,8 +2,6 @@ import 'package:flutter/foundation.dart';
 
 import '../models/product.dart';
 
-/// Хранилище избранного. Живёт в RootScreen, поэтому состояние
-/// не теряется при переходах между вкладками и экранами.
 class FavoritesStore extends ChangeNotifier {
   final List<Product> _items = [];
 

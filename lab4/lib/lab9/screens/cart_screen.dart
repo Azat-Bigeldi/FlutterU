@@ -6,14 +6,11 @@ import '../providers/cart_provider.dart';
 import '../theme.dart';
 import '../widgets/product_image.dart';
 
-/// LW9 — Screen 2 (Cart View):
-/// список выбранных товаров, удаление по одному, итог, "Очистить всё".
 class CartScreen extends StatelessWidget {
   const CartScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    // watch: экран перестраивается при любом изменении корзины
     final cart = context.watch<CartProvider>();
 
     return Scaffold(
@@ -36,23 +33,23 @@ class CartScreen extends StatelessWidget {
               tooltip: 'Очистить всё',
               icon: const Icon(Icons.delete_sweep_outlined,
                   color: FlipColors.red),
-              onPressed: () => _confirmClear(context),
+              onPressed: () => _askClearCart(context),
             ),
         ],
       ),
       body: cart.isEmpty
-          ? const _EmptyCart()
+          ? const _NoItemsView()
           : ListView.separated(
               padding: const EdgeInsets.all(16),
               itemCount: cart.items.length,
               separatorBuilder: (_, __) => const SizedBox(height: 10),
-              itemBuilder: (_, i) => _CartItem(product: cart.items[i]),
+              itemBuilder: (_, i) => _CartRow(product: cart.items[i]),
             ),
-      bottomNavigationBar: cart.isEmpty ? null : _Summary(cart: cart),
+      bottomNavigationBar: cart.isEmpty ? null : _CartTotalBar(cart: cart),
     );
   }
 
-  Future<void> _confirmClear(BuildContext context) async {
+  Future<void> _askClearCart(BuildContext context) async {
     final ok = await showDialog<bool>(
       context: context,
       builder: (ctx) => AlertDialog(
@@ -71,16 +68,15 @@ class CartScreen extends StatelessWidget {
         ],
       ),
     );
-    // После await контекст мог исчезнуть
     if (ok == true && context.mounted) {
       context.read<CartProvider>().clear();
     }
   }
 }
 
-class _CartItem extends StatelessWidget {
+class _CartRow extends StatelessWidget {
   final Product product;
-  const _CartItem({required this.product});
+  const _CartRow({required this.product});
 
   @override
   Widget build(BuildContext context) {
@@ -92,10 +88,9 @@ class _CartItem extends StatelessWidget {
       ),
       child: Row(
         children: [
-          // Без Hero: тот же tag уже есть на экране каталога под нами
           SizedBox(
             width: 60,
-            height: 86,
+            height: 70,
             child: ProductImage(url: product.imageUrl),
           ),
           const SizedBox(width: 12),
@@ -108,28 +103,14 @@ class _CartItem extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                     style: const TextStyle(
                         fontSize: 16, fontWeight: FontWeight.w600)),
-                Text(product.author,
+                Text(product.category,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: const TextStyle(color: FlipColors.grey)),
                 const SizedBox(height: 6),
-                Row(
-                  children: [
-                    Text(formatPrice(product.price),
-                        style: const TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.w800)),
-                    const SizedBox(width: 6),
-                    Flexible(
-                      child: Text(formatPrice(product.oldPrice),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
-                              fontSize: 12,
-                              color: FlipColors.grey,
-                              decoration: TextDecoration.lineThrough)),
-                    ),
-                  ],
-                ),
+                Text(formatPrice(product.price),
+                    style: const TextStyle(
+                        fontSize: 16, fontWeight: FontWeight.w800)),
               ],
             ),
           ),
@@ -144,9 +125,9 @@ class _CartItem extends StatelessWidget {
   }
 }
 
-class _Summary extends StatelessWidget {
+class _CartTotalBar extends StatelessWidget {
   final CartProvider cart;
-  const _Summary({required this.cart});
+  const _CartTotalBar({required this.cart});
 
   @override
   Widget build(BuildContext context) {
@@ -161,16 +142,6 @@ class _Summary extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Row(
-              children: [
-                const Text('Экономия', style: TextStyle(color: FlipColors.grey)),
-                const Spacer(),
-                Text('−${formatPrice(cart.totalSaving)}',
-                    style: const TextStyle(
-                        color: FlipColors.red, fontWeight: FontWeight.w600)),
-              ],
-            ),
-            const SizedBox(height: 4),
             Row(
               children: [
                 const Text('Итого',
@@ -193,12 +164,7 @@ class _Summary extends StatelessWidget {
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(26)),
                 ),
-                onPressed: () => ScaffoldMessenger.of(context)
-                  ..hideCurrentSnackBar()
-                  ..showSnackBar(const SnackBar(
-                    behavior: SnackBarBehavior.floating,
-                    content: Text('Оформление заказа — в следующей лабе 🙂'),
-                  )),
+                onPressed: () {},
                 child: const Text('Оформить заказ',
                     style:
                         TextStyle(fontSize: 17, fontWeight: FontWeight.w600)),
@@ -211,8 +177,8 @@ class _Summary extends StatelessWidget {
   }
 }
 
-class _EmptyCart extends StatelessWidget {
-  const _EmptyCart();
+class _NoItemsView extends StatelessWidget {
+  const _NoItemsView();
 
   @override
   Widget build(BuildContext context) {
@@ -228,7 +194,7 @@ class _EmptyCart extends StatelessWidget {
             const Text('Корзина пуста',
                 style: TextStyle(fontSize: 22, fontWeight: FontWeight.w700)),
             const SizedBox(height: 8),
-            const Text('Добавьте книги из каталога',
+            const Text('Добавьте товары из каталога',
                 style: TextStyle(color: FlipColors.grey, fontSize: 15)),
             const SizedBox(height: 24),
             SizedBox(

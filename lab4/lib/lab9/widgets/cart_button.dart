@@ -5,28 +5,27 @@ import '../models/product.dart';
 import '../providers/cart_provider.dart';
 import '../theme.dart';
 
-/// LW9: кнопка-переключатель "В корзину" / "В корзине".
-/// Используется в сетке, в списке и на экране товара.
 class CartButton extends StatelessWidget {
   final Product product;
 
-  /// compact = только иконка (для строки списка)
   final bool compact;
   final double height;
+  final String addLabel;
+  final String inCartLabel;
 
   const CartButton({
     super.key,
     required this.product,
     this.compact = false,
     this.height = 34,
+    this.addLabel = 'В корзину',
+    this.inCartLabel = 'В корзине',
   });
 
   @override
   Widget build(BuildContext context) {
-    // select: кнопка перерисуется только когда меняется статус ЭТОГО товара
     final inCart =
         context.select<CartProvider, bool>((c) => c.contains(product));
-    // read: просто вызываем метод, без подписки
     void onPressed() => context.read<CartProvider>().toggle(product);
 
     if (compact) {
@@ -56,7 +55,7 @@ class CartButton extends StatelessWidget {
               ),
               onPressed: onPressed,
               icon: const Icon(Icons.check, size: 18),
-              label: const Text('В корзине'),
+              label: Text(inCartLabel),
             )
           : FilledButton.icon(
               style: FilledButton.styleFrom(
@@ -67,7 +66,7 @@ class CartButton extends StatelessWidget {
               ),
               onPressed: onPressed,
               icon: const Icon(Icons.add_shopping_cart, size: 18),
-              label: const Text('В корзину'),
+              label: Text(addLabel),
             ),
     );
   }

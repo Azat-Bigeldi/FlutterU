@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import '../theme.dart';
 
-/// Красный фон, который открывается при свайпе справа налево.
 class DeleteBackground extends StatelessWidget {
   final BorderRadius borderRadius;
 

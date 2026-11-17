@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import '../theme.dart';
 
-/// Вкладка 3 — профиль и простые настройки.
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
 
@@ -85,14 +84,14 @@ class _Section extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 12),
-      decoration: BoxDecoration(
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 12),
+      child: Material(
         color: Colors.white,
         borderRadius: BorderRadius.circular(16),
+        clipBehavior: Clip.antiAlias,
+        child: Column(children: children),
       ),
-      clipBehavior: Clip.antiAlias,
-      child: Column(children: children),
     );
   }
 }

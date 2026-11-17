@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-/// Компактный рейтинг: ★ 4.8
 class RatingStars extends StatelessWidget {
   final double rating;
   final double size;

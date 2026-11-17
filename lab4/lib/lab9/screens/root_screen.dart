@@ -6,8 +6,6 @@ import 'favorites_screen.dart';
 import 'feed_screen.dart';
 import 'profile_screen.dart';
 
-/// Корневой экран с BottomNavigationBar (3 вкладки).
-/// IndexedStack сохраняет состояние каждой вкладки (скролл и т.д.).
 class RootScreen extends StatefulWidget {
   const RootScreen({super.key});
 

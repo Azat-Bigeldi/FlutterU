@@ -7,12 +7,6 @@ import 'cart_button.dart';
 import 'product_image.dart';
 import 'rating_stars.dart';
 
-/// Карточка товара для Grid mode (2 колонки, childAspectRatio 0.62).
-/// LW9: внизу кнопка-переключатель "В корзину" (CartButton).
-/// Без overflow, потому что:
-///  - обложка в Expanded — забирает оставшуюся высоту;
-///  - у всех текстов maxLines: 1 + ellipsis;
-///  - старая цена в Flexible — не вылезает по ширине.
 class ProductCard extends StatelessWidget {
   final Product product;
   final FavoritesStore favorites;
@@ -45,7 +39,7 @@ class ProductCard extends StatelessWidget {
                     child: Padding(
                       padding: const EdgeInsets.all(8),
                       child: Hero(
-                        tag: 'img_${product.id}',
+                        tag: 'product_image_${product.id}',
                         child: ProductImage(url: product.imageUrl),
                       ),
                     ),
@@ -75,29 +69,12 @@ class ProductCard extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
-                    children: [
-                      Text(
-                        formatPrice(product.price),
-                        style: const TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w800,
-                        ),
-                      ),
-                      const SizedBox(width: 6),
-                      Flexible(
-                        child: Text(
-                          formatPrice(product.oldPrice),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
-                            fontSize: 11,
-                            color: FlipColors.grey,
-                            decoration: TextDecoration.lineThrough,
-                          ),
-                        ),
-                      ),
-                    ],
+                  Text(
+                    formatPrice(product.price),
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w800,
+                    ),
                   ),
                   const SizedBox(height: 2),
                   Text(
@@ -113,7 +90,7 @@ class ProductCard extends StatelessWidget {
                       const SizedBox(width: 6),
                       Expanded(
                         child: Text(
-                          product.author,
+                          product.category,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           style: const TextStyle(

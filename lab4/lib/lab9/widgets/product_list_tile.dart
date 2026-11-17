@@ -7,8 +7,6 @@ import 'category_tag.dart';
 import 'product_image.dart';
 import 'rating_stars.dart';
 
-/// Строка ленты (List mode): обложка-аватар, название, тег категории,
-/// рейтинг и цена. LW9: + иконка-переключатель корзины.
 class ProductListTile extends StatelessWidget {
   final Product product;
   final VoidCallback onTap;
@@ -25,15 +23,14 @@ class ProductListTile extends StatelessWidget {
           padding: const EdgeInsets.fromLTRB(16, 10, 4, 10),
           child: Row(
             children: [
-              // Аватар — мини-обложка книги
               Hero(
-                tag: 'img_${product.id}',
+                tag: 'product_image_${product.id}',
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(8),
                   child: SizedBox(
-                    width: 52,
-                    height: 72,
-                    child: ProductImage(url: product.imageUrl, fit: BoxFit.cover),
+                    width: 56,
+                    height: 64,
+                    child: ProductImage(url: product.imageUrl),
                   ),
                 ),
               ),
@@ -43,39 +40,29 @@ class ProductListTile extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(product.title,
-                        maxLines: 1,
+                        maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                         style: const TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.w600)),
-                    Text(product.author,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(color: FlipColors.grey)),
+                            fontSize: 15, fontWeight: FontWeight.w600)),
                     const SizedBox(height: 6),
                     Row(
                       children: [
                         Flexible(child: CategoryTag(label: product.category)),
                         const SizedBox(width: 8),
                         RatingStars(rating: product.rating),
+                        const SizedBox(width: 4),
+                        Text('(${product.reviewCount})',
+                            style: const TextStyle(
+                                fontSize: 12, color: FlipColors.grey)),
                       ],
                     ),
                   ],
                 ),
               ),
               const SizedBox(width: 8),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Text(formatPrice(product.price),
-                      style: const TextStyle(
-                          fontSize: 16, fontWeight: FontWeight.w800)),
-                  Text(formatPrice(product.oldPrice),
-                      style: const TextStyle(
-                          fontSize: 12,
-                          color: FlipColors.grey,
-                          decoration: TextDecoration.lineThrough)),
-                ],
-              ),
+              Text(formatPrice(product.price),
+                  style: const TextStyle(
+                      fontSize: 16, fontWeight: FontWeight.w800)),
               CartButton(product: product, compact: true),
             ],
           ),

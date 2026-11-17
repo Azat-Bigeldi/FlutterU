@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import '../theme.dart';
 
-/// Заглушка, когда все товары удалены свайпом.
 class EmptyState extends StatelessWidget {
   final VoidCallback onReset;
 
@@ -22,7 +21,7 @@ class EmptyState extends StatelessWidget {
                 style: TextStyle(fontSize: 22, fontWeight: FontWeight.w700)),
             const SizedBox(height: 8),
             const Text(
-              'Все товары удалены.\nВерните исходный каталог, чтобы продолжить.',
+              'Все товары удалены.\nЗагрузите каталог заново, чтобы продолжить.',
               textAlign: TextAlign.center,
               style: TextStyle(color: FlipColors.grey, fontSize: 15),
             ),

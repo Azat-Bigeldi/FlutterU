@@ -5,8 +5,6 @@ import '../providers/cart_provider.dart';
 import '../screens/cart_screen.dart';
 import '../theme.dart';
 
-/// LW9: иконка корзины в AppBar с живым счётчиком.
-/// select -> перерисовывается только когда меняется количество.
 class CartBadge extends StatelessWidget {
   const CartBadge({super.key});
 

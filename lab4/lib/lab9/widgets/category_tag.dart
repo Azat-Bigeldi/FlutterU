@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import '../theme.dart';
 
-/// Маленький тег категории.
 class CategoryTag extends StatelessWidget {
   final String label;
 

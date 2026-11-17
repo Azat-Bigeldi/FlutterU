@@ -3,9 +3,8 @@ import 'package:flutter/material.dart';
 import '../data/favorites_store.dart';
 import '../theme.dart';
 import '../widgets/product_image.dart';
-import 'detail_screen.dart';
+import 'product_detail_screen.dart';
 
-/// Вкладка 2 — избранное.
 class FavoritesScreen extends StatelessWidget {
   final FavoritesStore favorites;
 
@@ -62,7 +61,7 @@ class FavoritesScreen extends StatelessWidget {
                           context,
                           MaterialPageRoute(
                             builder: (_) =>
-                                DetailScreen(product: p, favorites: favorites),
+                                ProductDetailScreen(product: p, favorites: favorites),
                           ),
                         ),
                         child: Padding(
@@ -71,7 +70,7 @@ class FavoritesScreen extends StatelessWidget {
                             children: [
                               SizedBox(
                                 width: 70,
-                                height: 100,
+                                height: 70,
                                 child: ProductImage(url: p.imageUrl),
                               ),
                               const SizedBox(width: 12),
@@ -80,10 +79,12 @@ class FavoritesScreen extends StatelessWidget {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(p.title,
+                                        maxLines: 2,
+                                        overflow: TextOverflow.ellipsis,
                                         style: const TextStyle(
                                             fontSize: 16,
                                             fontWeight: FontWeight.w600)),
-                                    Text(p.author,
+                                    Text(p.category,
                                         style: const TextStyle(
                                             color: FlipColors.grey)),
                                     const SizedBox(height: 6),

@@ -1,29 +1,36 @@
-/// Модель товара. Весь объект целиком передаётся в DetailScreen.
-/// `id` уникален — используется в ValueKey для Dismissible.
 class Product {
-  final String id;
+  final int id;
   final String title;
-  final String author;
+  final double price;
   final String description;
-  final String imageUrl;
-  final int price;
-  final int oldPrice;
   final String category;
-  final String details; // обложка, год, издательство
-  final double rating; // LW8: звёздный рейтинг 0.0–5.0
+  final String imageUrl;
+  final double rating;
+  final int reviewCount;
 
   const Product({
     required this.id,
     required this.title,
-    required this.author,
-    required this.description,
-    required this.imageUrl,
     required this.price,
-    required this.oldPrice,
+    required this.description,
     required this.category,
-    required this.details,
+    required this.imageUrl,
     required this.rating,
+    required this.reviewCount,
   });
 
-  int get discountPercent => ((oldPrice - price) * 100 / oldPrice).round();
+  factory Product.fromJson(Map<String, dynamic> json) {
+    final rating = json['rating'] as Map<String, dynamic>? ?? {};
+
+    return Product(
+      id: (json['id'] as num?)?.toInt() ?? 0,
+      title: json['title'] as String? ?? 'No title',
+      price: (json['price'] as num?)?.toDouble() ?? 0.0,
+      description: json['description'] as String? ?? '',
+      category: json['category'] as String? ?? 'other',
+      imageUrl: json['image'] as String? ?? '',
+      rating: (rating['rate'] as num?)?.toDouble() ?? 0.0,
+      reviewCount: (rating['count'] as num?)?.toInt() ?? 0,
+    );
+  }
 }
