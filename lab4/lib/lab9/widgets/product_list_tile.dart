@@ -11,12 +11,16 @@ class ProductListTile extends StatelessWidget {
   final Product product;
   final VoidCallback onTap;
 
-  const ProductListTile({super.key, required this.product, required this.onTap});
+  const ProductListTile({
+    super.key,
+    required this.product,
+    required this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: FlipColors.card,
+      color: Theme.of(context).colorScheme.surface,
       child: InkWell(
         onTap: onTap,
         child: Padding(
@@ -39,11 +43,15 @@ class ProductListTile extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(product.title,
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(
-                            fontSize: 15, fontWeight: FontWeight.w600)),
+                    Text(
+                      product.title,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
                     const SizedBox(height: 6),
                     Row(
                       children: [
@@ -51,18 +59,26 @@ class ProductListTile extends StatelessWidget {
                         const SizedBox(width: 8),
                         RatingStars(rating: product.rating),
                         const SizedBox(width: 4),
-                        Text('(${product.reviewCount})',
-                            style: const TextStyle(
-                                fontSize: 12, color: FlipColors.grey)),
+                        Text(
+                          '(${product.reviewCount})',
+                          style: const TextStyle(
+                            fontSize: 12,
+                            color: FlipColors.grey,
+                          ),
+                        ),
                       ],
                     ),
                   ],
                 ),
               ),
               const SizedBox(width: 8),
-              Text(formatPrice(product.price),
-                  style: const TextStyle(
-                      fontSize: 16, fontWeight: FontWeight.w800)),
+              Text(
+                formatPrice(product.price),
+                style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w800,
+                ),
+              ),
               CartButton(product: product, compact: true),
             ],
           ),
