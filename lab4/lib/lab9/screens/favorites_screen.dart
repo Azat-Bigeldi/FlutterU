@@ -21,9 +21,10 @@ class FavoritesScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('Favorites',
-                    style:
-                        TextStyle(fontSize: 24, fontWeight: FontWeight.w700)),
+                Text(
+                  'Favorites',
+                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.w700),
+                ),
                 Text('All products', style: TextStyle(color: FlipColors.grey)),
               ],
             ),
@@ -53,15 +54,17 @@ class FavoritesScreen extends StatelessWidget {
                   itemBuilder: (context, i) {
                     final p = items[i];
                     return Material(
-                      color: Colors.white,
+                      color: Theme.of(context).colorScheme.surface,
                       borderRadius: BorderRadius.circular(14),
                       child: InkWell(
                         borderRadius: BorderRadius.circular(14),
                         onTap: () => Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (_) =>
-                                ProductDetailScreen(product: p, favorites: favorites),
+                            builder: (_) => ProductDetailScreen(
+                              product: p,
+                              favorites: favorites,
+                            ),
                           ),
                         ),
                         child: Padding(
@@ -78,26 +81,37 @@ class FavoritesScreen extends StatelessWidget {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text(p.title,
-                                        maxLines: 2,
-                                        overflow: TextOverflow.ellipsis,
-                                        style: const TextStyle(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w600)),
-                                    Text(p.category,
-                                        style: const TextStyle(
-                                            color: FlipColors.grey)),
+                                    Text(
+                                      p.title,
+                                      maxLines: 2,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: const TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                    Text(
+                                      p.category,
+                                      style: const TextStyle(
+                                        color: FlipColors.grey,
+                                      ),
+                                    ),
                                     const SizedBox(height: 6),
-                                    Text(formatPrice(p.price),
-                                        style: const TextStyle(
-                                            fontSize: 17,
-                                            fontWeight: FontWeight.w800)),
+                                    Text(
+                                      formatPrice(p.price),
+                                      style: const TextStyle(
+                                        fontSize: 17,
+                                        fontWeight: FontWeight.w800,
+                                      ),
+                                    ),
                                   ],
                                 ),
                               ),
                               IconButton(
-                                icon: const Icon(Icons.favorite,
-                                    color: FlipColors.red),
+                                icon: const Icon(
+                                  Icons.favorite,
+                                  color: FlipColors.red,
+                                ),
                                 onPressed: () => favorites.toggle(p),
                               ),
                             ],

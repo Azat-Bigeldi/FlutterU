@@ -38,7 +38,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
 
     showModalBottomSheet(
       context: context,
-      backgroundColor: Colors.white,
+      backgroundColor: Theme.of(context).colorScheme.surface,
       showDragHandle: true,
       builder: (sheetContext) {
         return SafeArea(
@@ -48,20 +48,27 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text('Поделиться товаром',
-                    style:
-                        TextStyle(fontSize: 20, fontWeight: FontWeight.w700)),
+                const Text(
+                  'Поделиться товаром',
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
+                ),
                 const SizedBox(height: 4),
-                Text(widget.product.title,
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(color: FlipColors.grey)),
+                Text(
+                  widget.product.title,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(color: FlipColors.grey),
+                ),
                 const SizedBox(height: 16),
                 Container(
                   width: double.infinity,
                   padding: const EdgeInsets.all(14),
                   decoration: BoxDecoration(
-                    color: FlipColors.background,
+                    color:
+                        Theme.of(sheetContext).colorScheme.brightness ==
+                            Brightness.dark
+                        ? const Color(0xFF252B34)
+                        : FlipColors.background,
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: Row(
@@ -69,9 +76,13 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                       const Icon(Icons.link, color: FlipColors.blue),
                       const SizedBox(width: 10),
                       Expanded(
-                        child: Text(link,
-                            style: const TextStyle(
-                                fontSize: 15, fontWeight: FontWeight.w600)),
+                        child: Text(
+                          link,
+                          style: const TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
                       ),
                     ],
                   ),
@@ -84,7 +95,8 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                     style: FilledButton.styleFrom(
                       backgroundColor: FlipColors.blue,
                       shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(25)),
+                        borderRadius: BorderRadius.circular(25),
+                      ),
                     ),
                     onPressed: () {
                       Clipboard.setData(ClipboardData(text: link));
@@ -97,9 +109,13 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                       );
                     },
                     icon: const Icon(Icons.copy, size: 20),
-                    label: const Text('Copy',
-                        style: TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.w600)),
+                    label: const Text(
+                      'Copy',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
                   ),
                 ),
               ],
@@ -134,8 +150,12 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
             builder: (context, _) {
               final fav = favorites.contains(product);
               return IconButton(
-                icon: Icon(fav ? Icons.favorite : Icons.favorite_border,
-                    color: fav ? FlipColors.red : Colors.black87),
+                icon: Icon(
+                  fav ? Icons.favorite : Icons.favorite_border,
+                  color: fav
+                      ? FlipColors.red
+                      : Theme.of(context).colorScheme.onSurface,
+                ),
                 onPressed: () => favorites.toggle(product),
               );
             },
@@ -148,7 +168,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
         children: [
           Container(
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: Theme.of(context).colorScheme.surface,
               borderRadius: BorderRadius.circular(16),
             ),
             child: Column(
@@ -183,7 +203,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                         right: 12,
                         child: Container(
                           padding: const EdgeInsets.symmetric(
-                              horizontal: 10, vertical: 4),
+                            horizontal: 10,
+                            vertical: 4,
+                          ),
                           decoration: BoxDecoration(
                             color: Colors.black54,
                             borderRadius: BorderRadius.circular(12),
@@ -191,8 +213,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                           child: Text(
                             '${_currentPage + 1} / ${images.length}',
                             style: const TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.w600),
+                              color: Colors.white,
+                              fontWeight: FontWeight.w600,
+                            ),
                           ),
                         ),
                       ),
@@ -211,7 +234,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                         decoration: BoxDecoration(
                           color: i == _currentPage
                               ? FlipColors.blue
-                              : Colors.black26,
+                              : Theme.of(context).colorScheme.outline,
                           borderRadius: BorderRadius.circular(4),
                         ),
                       ),
@@ -225,7 +248,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
           Container(
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: Theme.of(context).colorScheme.surface,
               borderRadius: BorderRadius.circular(16),
             ),
             child: Column(
@@ -233,38 +256,51 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
               children: [
                 CategoryTag(label: product.category),
                 const SizedBox(height: 10),
-                Text(product.title,
-                    style: const TextStyle(
-                        fontSize: 22, fontWeight: FontWeight.w600)),
+                Text(
+                  product.title,
+                  style: const TextStyle(
+                    fontSize: 22,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
                 const SizedBox(height: 12),
                 _InfoRow(
-                    label: 'Рейтинг',
-                    value: '★ ${product.rating.toStringAsFixed(1)} '
-                        '(${product.reviewCount} отзывов)'),
+                  label: 'Рейтинг',
+                  value:
+                      '★ ${product.rating.toStringAsFixed(1)} '
+                      '(${product.reviewCount} отзывов)',
+                ),
                 _InfoRow(label: 'Категория', value: product.category),
                 const _InfoRow(label: 'Продавец', value: 'Flip'),
                 const SizedBox(height: 12),
-                const Text('Описание',
-                    style:
-                        TextStyle(fontSize: 18, fontWeight: FontWeight.w600)),
+                const Text(
+                  'Описание',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                ),
                 const SizedBox(height: 6),
-                Text(product.description,
-                    style: const TextStyle(fontSize: 15, height: 1.4)),
+                Text(
+                  product.description,
+                  style: const TextStyle(fontSize: 15, height: 1.4),
+                ),
               ],
             ),
           ),
         ],
       ),
       bottomNavigationBar: Container(
-        color: Colors.white,
+        color: Theme.of(context).colorScheme.surface,
         padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
         child: SafeArea(
           top: false,
           child: Row(
             children: [
-              Text(formatPrice(product.price),
-                  style: const TextStyle(
-                      fontSize: 24, fontWeight: FontWeight.w800)),
+              Text(
+                formatPrice(product.price),
+                style: const TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.w800,
+                ),
+              ),
               const SizedBox(width: 16),
               Expanded(
                 child: CartButton(

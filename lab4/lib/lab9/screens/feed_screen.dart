@@ -195,9 +195,11 @@ class _FeedScreenState extends State<FeedScreen> {
           children: [
             const Icon(Icons.wifi_off, size: 96, color: FlipColors.grey),
             const SizedBox(height: 16),
-            const Text('Не удалось загрузить товары',
-                textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 22, fontWeight: FontWeight.w700)),
+            const Text(
+              'Не удалось загрузить товары',
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 22, fontWeight: FontWeight.w700),
+            ),
             const SizedBox(height: 8),
             Text(
               _errorMessage!,
@@ -213,13 +215,15 @@ class _FeedScreenState extends State<FeedScreen> {
                   foregroundColor: Colors.black,
                   elevation: 0,
                   shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(25)),
+                    borderRadius: BorderRadius.circular(25),
+                  ),
                 ),
                 onPressed: _loadProducts,
                 icon: const Icon(Icons.refresh),
-                label: const Text('Retry Connection',
-                    style:
-                        TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
+                label: const Text(
+                  'Retry Connection',
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                ),
               ),
             ),
           ],
@@ -305,7 +309,7 @@ class _SearchBar extends StatelessWidget {
         height: 48,
         padding: const EdgeInsets.symmetric(horizontal: 14),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: Theme.of(context).colorScheme.surface,
           borderRadius: BorderRadius.circular(12),
         ),
         child: const Row(

@@ -21,18 +21,24 @@ class CartScreen extends StatelessWidget {
         ),
         title: Column(
           children: [
-            const Text('Корзина',
-                style: TextStyle(fontWeight: FontWeight.w700)),
-            Text('${cart.count} товаров',
-                style: const TextStyle(fontSize: 12, color: FlipColors.grey)),
+            const Text(
+              'Корзина',
+              style: TextStyle(fontWeight: FontWeight.w700),
+            ),
+            Text(
+              '${cart.count} товаров',
+              style: const TextStyle(fontSize: 12, color: FlipColors.grey),
+            ),
           ],
         ),
         actions: [
           if (!cart.isEmpty)
             IconButton(
               tooltip: 'Очистить всё',
-              icon: const Icon(Icons.delete_sweep_outlined,
-                  color: FlipColors.red),
+              icon: const Icon(
+                Icons.delete_sweep_outlined,
+                color: FlipColors.red,
+              ),
               onPressed: () => _askClearCart(context),
             ),
         ],
@@ -83,7 +89,7 @@ class _CartRow extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
-        color: FlipColors.card,
+        color: Theme.of(context).colorScheme.surface,
         borderRadius: BorderRadius.circular(14),
       ),
       child: Row(
@@ -98,19 +104,29 @@ class _CartRow extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(product.title,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(
-                        fontSize: 16, fontWeight: FontWeight.w600)),
-                Text(product.category,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(color: FlipColors.grey)),
+                Text(
+                  product.title,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                Text(
+                  product.category,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(color: FlipColors.grey),
+                ),
                 const SizedBox(height: 6),
-                Text(formatPrice(product.price),
-                    style: const TextStyle(
-                        fontSize: 16, fontWeight: FontWeight.w800)),
+                Text(
+                  formatPrice(product.price),
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w800,
+                  ),
+                ),
               ],
             ),
           ),
@@ -132,9 +148,9 @@ class _CartTotalBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: const BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      decoration: BoxDecoration(
+        color: Theme.of(context).colorScheme.surface,
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
       ),
       padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
       child: SafeArea(
@@ -144,13 +160,18 @@ class _CartTotalBar extends StatelessWidget {
           children: [
             Row(
               children: [
-                const Text('Итого',
-                    style:
-                        TextStyle(fontSize: 18, fontWeight: FontWeight.w600)),
+                const Text(
+                  'Итого',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                ),
                 const Spacer(),
-                Text(formatPrice(cart.totalPrice),
-                    style: const TextStyle(
-                        fontSize: 22, fontWeight: FontWeight.w800)),
+                Text(
+                  formatPrice(cart.totalPrice),
+                  style: const TextStyle(
+                    fontSize: 22,
+                    fontWeight: FontWeight.w800,
+                  ),
+                ),
               ],
             ),
             const SizedBox(height: 12),
@@ -162,12 +183,14 @@ class _CartTotalBar extends StatelessWidget {
                   backgroundColor: FlipColors.yellow,
                   foregroundColor: Colors.black,
                   shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(26)),
+                    borderRadius: BorderRadius.circular(26),
+                  ),
                 ),
                 onPressed: () {},
-                child: const Text('Оформить заказ',
-                    style:
-                        TextStyle(fontSize: 17, fontWeight: FontWeight.w600)),
+                child: const Text(
+                  'Оформить заказ',
+                  style: TextStyle(fontSize: 17, fontWeight: FontWeight.w600),
+                ),
               ),
             ),
           ],
@@ -188,14 +211,21 @@ class _NoItemsView extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Icon(Icons.shopping_cart_outlined,
-                size: 96, color: FlipColors.grey),
+            const Icon(
+              Icons.shopping_cart_outlined,
+              size: 96,
+              color: FlipColors.grey,
+            ),
             const SizedBox(height: 16),
-            const Text('Корзина пуста',
-                style: TextStyle(fontSize: 22, fontWeight: FontWeight.w700)),
+            const Text(
+              'Корзина пуста',
+              style: TextStyle(fontSize: 22, fontWeight: FontWeight.w700),
+            ),
             const SizedBox(height: 8),
-            const Text('Добавьте товары из каталога',
-                style: TextStyle(color: FlipColors.grey, fontSize: 15)),
+            const Text(
+              'Добавьте товары из каталога',
+              style: TextStyle(color: FlipColors.grey, fontSize: 15),
+            ),
             const SizedBox(height: 24),
             SizedBox(
               height: 50,
@@ -204,13 +234,15 @@ class _NoItemsView extends StatelessWidget {
                   backgroundColor: FlipColors.yellow,
                   foregroundColor: Colors.black,
                   shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(25)),
+                    borderRadius: BorderRadius.circular(25),
+                  ),
                 ),
                 onPressed: () => Navigator.pop(context),
                 icon: const Icon(Icons.arrow_back),
-                label: const Text('В каталог',
-                    style:
-                        TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
+                label: const Text(
+                  'В каталог',
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                ),
               ),
             ),
           ],

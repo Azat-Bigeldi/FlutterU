@@ -25,7 +25,7 @@ class ProductCard extends StatelessWidget {
       onTap: onTap,
       child: Container(
         decoration: BoxDecoration(
-          color: FlipColors.card,
+          color: Theme.of(context).colorScheme.surface,
           borderRadius: BorderRadius.circular(14),
         ),
         clipBehavior: Clip.antiAlias,
@@ -54,7 +54,9 @@ class ProductCard extends StatelessWidget {
                         return IconButton(
                           icon: Icon(
                             fav ? Icons.favorite : Icons.favorite_border,
-                            color: fav ? FlipColors.red : Colors.black87,
+                            color: fav
+                                ? FlipColors.red
+                                : Theme.of(context).colorScheme.onSurface,
                           ),
                           onPressed: () => favorites.toggle(product),
                         );

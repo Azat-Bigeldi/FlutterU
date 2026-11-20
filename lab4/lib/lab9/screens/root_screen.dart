@@ -1,13 +1,29 @@
 import 'package:flutter/material.dart';
 
 import '../data/favorites_store.dart';
+import '../models/note_item.dart';
 import '../theme.dart';
 import 'favorites_screen.dart';
 import 'feed_screen.dart';
 import 'profile_screen.dart';
 
 class RootScreen extends StatefulWidget {
-  const RootScreen({super.key});
+  final bool isDarkMode;
+  final String displayName;
+  final List<NoteItem> notes;
+  final ValueChanged<bool> onThemeChanged;
+  final ValueChanged<String> onDisplayNameSaved;
+  final ValueChanged<List<NoteItem>> onNotesChanged;
+
+  const RootScreen({
+    super.key,
+    required this.isDarkMode,
+    required this.displayName,
+    required this.notes,
+    required this.onThemeChanged,
+    required this.onDisplayNameSaved,
+    required this.onNotesChanged,
+  });
 
   @override
   State<RootScreen> createState() => _RootScreenState();
@@ -25,13 +41,22 @@ class _RootScreenState extends State<RootScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     return Scaffold(
       body: IndexedStack(
         index: _currentIndex,
         children: [
           FeedScreen(favorites: _favorites),
           FavoritesScreen(favorites: _favorites),
-          const ProfileScreen(),
+          ProfileScreen(
+            displayName: widget.displayName,
+            isDarkMode: widget.isDarkMode,
+            notes: widget.notes,
+            onThemeChanged: widget.onThemeChanged,
+            onDisplayNameSaved: widget.onDisplayNameSaved,
+            onNotesChanged: widget.onNotesChanged,
+          ),
         ],
       ),
       bottomNavigationBar: ListenableBuilder(
@@ -39,9 +64,11 @@ class _RootScreenState extends State<RootScreen> {
         builder: (context, _) => BottomNavigationBar(
           currentIndex: _currentIndex,
           onTap: (i) => setState(() => _currentIndex = i),
-          backgroundColor: Colors.white,
+          backgroundColor: colorScheme.surface,
           selectedItemColor: FlipColors.blue,
-          unselectedItemColor: FlipColors.grey,
+          unselectedItemColor: colorScheme.brightness == Brightness.dark
+              ? Colors.white60
+              : FlipColors.grey,
           type: BottomNavigationBarType.fixed,
           items: [
             const BottomNavigationBarItem(
