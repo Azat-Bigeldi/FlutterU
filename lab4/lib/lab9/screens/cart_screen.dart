@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../blocs/cart/cart_bloc.dart';
+import '../blocs/cart/cart_event.dart';
+import '../blocs/cart/cart_state.dart';
 import '../models/product.dart';
-import '../providers/cart_provider.dart';
 import '../theme.dart';
 import '../widgets/product_image.dart';
 
@@ -11,8 +13,10 @@ class CartScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final cart = context.watch<CartProvider>();
+    return BlocBuilder<CartBloc, CartState>(builder: _buildCart);
+  }
 
+  Widget _buildCart(BuildContext context, CartState cart) {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -33,13 +37,10 @@ class CartScreen extends StatelessWidget {
         ),
         actions: [
           if (!cart.isEmpty)
-            IconButton(
-              tooltip: 'Очистить всё',
-              icon: const Icon(
-                Icons.delete_sweep_outlined,
-                color: FlipColors.red,
-              ),
+            TextButton(
+              style: TextButton.styleFrom(foregroundColor: FlipColors.red),
               onPressed: () => _askClearCart(context),
+              child: const Text('Clear All'),
             ),
         ],
       ),
@@ -75,7 +76,7 @@ class CartScreen extends StatelessWidget {
       ),
     );
     if (ok == true && context.mounted) {
-      context.read<CartProvider>().clear();
+      context.read<CartBloc>().add(const ClearCartEvent());
     }
   }
 }
@@ -133,7 +134,8 @@ class _CartRow extends StatelessWidget {
           IconButton(
             tooltip: 'Удалить',
             icon: const Icon(Icons.close, color: FlipColors.grey),
-            onPressed: () => context.read<CartProvider>().remove(product),
+            onPressed: () =>
+                context.read<CartBloc>().add(RemoveProductEvent(product.id)),
           ),
         ],
       ),
@@ -142,7 +144,7 @@ class _CartRow extends StatelessWidget {
 }
 
 class _CartTotalBar extends StatelessWidget {
-  final CartProvider cart;
+  final CartState cart;
   const _CartTotalBar({required this.cart});
 
   @override

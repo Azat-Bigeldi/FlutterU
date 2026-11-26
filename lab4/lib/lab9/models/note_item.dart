@@ -1,4 +1,6 @@
-class NoteItem {
+import 'package:equatable/equatable.dart';
+
+class NoteItem extends Equatable {
   final String id;
   final String title;
   final String dateText;
@@ -10,6 +12,9 @@ class NoteItem {
     required this.dateText,
     required this.isCompleted,
   });
+
+  @override
+  List<Object?> get props => [id, title, dateText, isCompleted];
 
   NoteItem copyWith({
     String? id,

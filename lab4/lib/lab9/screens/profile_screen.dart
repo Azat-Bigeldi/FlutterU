@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../blocs/settings/settings_cubit.dart';
+import '../blocs/settings/settings_state.dart';
 import '../models/note_item.dart';
 import '../theme.dart';
+import '../widgets/profile_avatar.dart';
+import 'delivery_screen.dart';
+import 'photo_journal_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
   final String displayName;
@@ -62,6 +68,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
         .showSnackBar(const SnackBar(content: Text('Имя сохранено')));
   }
 
+  void _open(Widget screen) {
+    Navigator.push(context, MaterialPageRoute(builder: (_) => screen));
+  }
+
   void _addNote() {
     final title = _noteController.text.trim();
     if (title.isEmpty) return;
@@ -118,15 +128,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             children: [
               ListTile(
                 contentPadding: const EdgeInsets.fromLTRB(16, 12, 16, 4),
-                leading: CircleAvatar(
-                  radius: 30,
-                  backgroundColor: FlipColors.blue.withOpacity(0.12),
-                  child: const Icon(
-                    Icons.person,
-                    size: 36,
-                    color: FlipColors.blue,
-                  ),
-                ),
+                leading: const ProfileAvatar(),
                 title: Text(
                   widget.displayName,
                   maxLines: 1,
@@ -172,22 +174,34 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ],
           ),
           _Section(
-            children: const [
-              _ProfileTile(
+            children: [
+              const _ProfileTile(
                 icon: Icons.description_outlined,
                 color: FlipColors.blue,
                 title: 'My orders',
               ),
-              _ProfileTile(
+              const _ProfileTile(
                 icon: Icons.inventory_2_outlined,
                 color: Color(0xFF29A3D6),
                 title: 'Packages',
               ),
+              BlocBuilder<SettingsCubit, SettingsState>(
+                builder: (context, settings) => _ProfileTile(
+                  icon: Icons.location_on_outlined,
+                  color: const Color(0xFF8E44EC),
+                  title: 'Курьерская доставка',
+                  subtitle:
+                      settings.deliveryPoint?.shortText ??
+                      'Выберите точку по GPS',
+                  onTap: () => _open(const DeliveryScreen()),
+                ),
+              ),
               _ProfileTile(
-                icon: Icons.location_on_outlined,
-                color: Color(0xFF8E44EC),
-                title: 'Курьерская доставка',
-                subtitle: 'Тараз',
+                icon: Icons.photo_camera_outlined,
+                color: const Color(0xFFE5733A),
+                title: 'Фотодневник',
+                subtitle: 'Фото с координатами',
+                onTap: () => _open(const PhotoJournalScreen()),
               ),
             ],
           ),
@@ -392,17 +406,20 @@ class _ProfileTile extends StatelessWidget {
   final Color color;
   final String title;
   final String? subtitle;
+  final VoidCallback? onTap;
 
   const _ProfileTile({
     required this.icon,
     required this.color,
     required this.title,
     this.subtitle,
+    this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
+      onTap: onTap,
       leading: Container(
         width: 40,
         height: 40,

@@ -1,29 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../blocs/settings/settings_cubit.dart';
+import '../blocs/settings/settings_state.dart';
 import '../data/favorites_store.dart';
-import '../models/note_item.dart';
 import '../theme.dart';
 import 'favorites_screen.dart';
 import 'feed_screen.dart';
 import 'profile_screen.dart';
 
 class RootScreen extends StatefulWidget {
-  final bool isDarkMode;
-  final String displayName;
-  final List<NoteItem> notes;
-  final ValueChanged<bool> onThemeChanged;
-  final ValueChanged<String> onDisplayNameSaved;
-  final ValueChanged<List<NoteItem>> onNotesChanged;
-
-  const RootScreen({
-    super.key,
-    required this.isDarkMode,
-    required this.displayName,
-    required this.notes,
-    required this.onThemeChanged,
-    required this.onDisplayNameSaved,
-    required this.onNotesChanged,
-  });
+  const RootScreen({super.key});
 
   @override
   State<RootScreen> createState() => _RootScreenState();
@@ -49,13 +36,18 @@ class _RootScreenState extends State<RootScreen> {
         children: [
           FeedScreen(favorites: _favorites),
           FavoritesScreen(favorites: _favorites),
-          ProfileScreen(
-            displayName: widget.displayName,
-            isDarkMode: widget.isDarkMode,
-            notes: widget.notes,
-            onThemeChanged: widget.onThemeChanged,
-            onDisplayNameSaved: widget.onDisplayNameSaved,
-            onNotesChanged: widget.onNotesChanged,
+          BlocBuilder<SettingsCubit, SettingsState>(
+            builder: (context, settings) {
+              final cubit = context.read<SettingsCubit>();
+              return ProfileScreen(
+                displayName: settings.displayName,
+                isDarkMode: settings.isDarkMode,
+                notes: settings.notes,
+                onThemeChanged: cubit.updateTheme,
+                onDisplayNameSaved: cubit.updateDisplayName,
+                onNotesChanged: cubit.updateNotes,
+              );
+            },
           ),
         ],
       ),
