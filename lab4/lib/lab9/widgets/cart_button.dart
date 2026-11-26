@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../models/product.dart';
-import '../providers/cart_provider.dart';
+import '../blocs/cart/cart_bloc.dart';
+import '../blocs/cart/cart_event.dart';
 import '../theme.dart';
 
 class CartButton extends StatelessWidget {
@@ -24,9 +25,12 @@ class CartButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final inCart =
-        context.select<CartProvider, bool>((c) => c.contains(product));
-    void onPressed() => context.read<CartProvider>().toggle(product);
+    final inCart = context.select<CartBloc, bool>(
+      (bloc) => bloc.state.contains(product.id),
+    );
+    void onPressed() => context.read<CartBloc>().add(
+      inCart ? RemoveProductEvent(product.id) : AddProductEvent(product),
+    );
 
     if (compact) {
       return IconButton(
@@ -39,8 +43,9 @@ class CartButton extends StatelessWidget {
       );
     }
 
-    final shape =
-        RoundedRectangleBorder(borderRadius: BorderRadius.circular(height / 2));
+    final shape = RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(height / 2),
+    );
 
     return SizedBox(
       height: height,
